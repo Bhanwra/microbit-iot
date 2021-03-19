@@ -1,0 +1,21 @@
+{
+  "name": "microbit-client",
+  "version": "1.0.0",
+  "description": "Microbit Client App",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Microbit",
+    "ElectronJS",
+    "NodeJS"
+  ],
+  "author": "Karan Bhanwra",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^12.0.1",
+    "electron-rebuild": "^2.3.5",
+    "serialport": "^9.0.7"
+  }
+}
