@@ -45,9 +45,8 @@ ipcMain.handle("scan_microbit", (event, args) => {
 function scanMicrobit() {
     SerialPort.list().then((ports) => {
         ports.forEach(device => {
-            if ( device.vendorId == "0D28" && device.productId == "0204" ) {
+            if ( ["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204" ) {
                 // is a microbit
-                console.log(device)
                 console.log("Microbit found!")
 
                 initMicrobit(device)
@@ -57,8 +56,6 @@ function scanMicrobit() {
 }
 
 function initMicrobit(device) {
-    console.log(`Device`, device)
-
     if ( device != false ) {
         const microBit = new SerialPort(device.path, {
             baudRate: 115200,
