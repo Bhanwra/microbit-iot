@@ -39,5 +39,8 @@ const closeApp = () => {
 
 const loginAction = (e) => {
     e.preventDefault()
-    console.log("Form Submitted")
+
+    let loginInput = document.querySelector("#loginForm input")
+
+    console.log(loginInput.value)
 }
