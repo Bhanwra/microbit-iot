@@ -1,0 +1,28 @@
+body {
+    display: grid;
+    grid-template-areas: 
+        "header header header friends"
+        "main main main friends"
+        "main main main friends"
+        "main main main friends"
+    ;
+    grid-auto-rows: 1fr;
+    grid-auto-columns: 1fr;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+#header {
+    grid-area: header;
+    padding: 2*$unit;
+}
+
+#main {
+    grid-area: main;
+    padding: 2*$unit;
+}
+
+#friends {
+    grid-area: friends;
+    padding: 2*$unit;
+}

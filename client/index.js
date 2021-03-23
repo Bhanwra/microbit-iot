@@ -4,12 +4,15 @@ const path = require('path');
 const SerialPort = require("serialport");
 const Readline = SerialPort.parsers.Readline
 
+const io = require('socket.io-client')
+const socket = io('http://localhost/')
+
 let window = null;
 
 function createWindow() {
     window = new BrowserWindow({
-        width: 800,
-        height: 800,
+        width: 1080,
+        height: 540,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -43,6 +46,7 @@ ipcMain.handle("scan_microbit", (event, args) => {
 })
 
 function scanMicrobit() {
+    connectToServer()
     SerialPort.list().then((ports) => {
         ports.forEach(device => {
             if ( ["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204" ) {
@@ -81,3 +85,11 @@ function initMicrobit(device) {
         })
     }
 } 
+
+function connectToServer() {
+
+}
+
+socket.on("connect", () => {
+    console.log("Connected to server!")
+})

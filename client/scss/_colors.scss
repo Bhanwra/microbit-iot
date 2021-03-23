@@ -1,0 +1,9 @@
+$colorMap: (
+    "dark": #1b1b1b,
+    "light": #F0F0F0
+);
+
+@each $key, $color in $colorMap {
+    .bg-#{$key} { background-color: #{$color}; }
+    .text-#{$key} { color: #{$color}; }
+}
