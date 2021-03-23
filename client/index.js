@@ -5,7 +5,7 @@ const SerialPort = require("serialport");
 const Readline = SerialPort.parsers.Readline
 
 const io = require('socket.io-client')
-const socket = io('http://localhost/')
+const socket = io('http://155.138.143.42/')
 
 let window = null;
 
@@ -13,6 +13,7 @@ function createWindow() {
     window = new BrowserWindow({
         width: 1080,
         height: 540,
+        frame: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -43,6 +44,10 @@ ipcMain.handle("hello", (event, args) => {
 
 ipcMain.handle("scan_microbit", (event, args) => {
     let device = scanMicrobit()
+})
+
+ipcMain.handle('app_close', (event, args) => {
+    app.quit();
 })
 
 function scanMicrobit() {
@@ -92,4 +97,8 @@ function connectToServer() {
 
 socket.on("connect", () => {
     console.log("Connected to server!")
+})
+
+socket.on("players", (playerList) => {
+    console.log(playerList)
 })

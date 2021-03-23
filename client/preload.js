@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron")
 
 let device = false
+let connected = false
 
 window.addEventListener('DOMContentLoaded', () => {
     const outputObject = document.getElementById("output")
@@ -24,4 +25,11 @@ window.addEventListener('DOMContentLoaded', () => {
         document.querySelector(".device-name").innerText = connectedDevice.serialNumber
         document.querySelector(".device-status").innerText = "Connected"
     })
+
+    const closeButton = document.getElementById('closeButton')
+    closeButton.addEventListener('click', closeApp)
 })
+
+const closeApp = () => {
+    ipcRenderer.invoke('app_close')
+}

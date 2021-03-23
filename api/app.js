@@ -44,12 +44,39 @@ module.exports = app;
 const httpServer = require('http').createServer(app)
 const io = require('socket.io')(httpServer, {})
 
+let playerList = []
+
 io.on('connection', socket => {
   console.log(`[CONNECT]:`, socket.id)
 
+  let player = {
+    socket: socket.id
+  }
+
+  playerConnected(player)
+
   socket.on("disconnect", (reason) => {
-    console.log(`[DISCONNECT]: ${reason}`)
+      console.log(`[DISCONNECT]: ${reason}`)
+      playerDisconnected(player)
   })
+
 })
 
 httpServer.listen(80)
+
+const playerConnected = (player) => {
+  playerList.push(player)
+  updatePlayers()
+}
+
+const playerDisconnected = (player) => {
+  playerList = playerList.filter(item => {
+    return item != player
+  })
+  updatePlayers()
+}
+
+const updatePlayers = () => {
+  io.emit("players", playerList)
+  console.log(playerList)
+}
