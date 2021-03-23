@@ -28,8 +28,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const closeButton = document.getElementById('closeButton')
     closeButton.addEventListener('click', closeApp)
+
+    const loginForm = document.getElementById("loginForm")
+    loginForm.addEventListener("submit", loginAction)
 })
 
 const closeApp = () => {
     ipcRenderer.invoke('app_close')
+}
+
+const loginAction = (e) => {
+    e.preventDefault()
+    console.log("Form Submitted")
 }
