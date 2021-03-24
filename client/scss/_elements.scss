@@ -1,0 +1,17 @@
+.btn {
+    background-color: transparent;
+    color: map-get($map: $colorMap, $key: "light");
+    font-size: 1em;
+    padding: 0.25em 0.5em;
+    border: solid thin map-get($map: $colorMap, $key: "light");
+    font-weight: lighter;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+        background-color: map-get($map: $colorMap, $key: "light");
+        color: map-get($map: $colorMap, $key: "dark");
+    }
+}

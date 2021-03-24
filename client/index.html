@@ -18,8 +18,8 @@
     <input type="checkbox" hidden id="login-check">
     <section class="login-pane">
         <form action="#" method="GET" id="loginForm">
+            <button type="submit">Press Enter</button>
             <input type="text" placeholder="Enter Username" >
-            <button type="submit">Login</button>
         </form>
     </section>
 
@@ -35,30 +35,40 @@
 
     <main id="main">
 
+        <section class="game-poster">
+            poster
+        </section>
+
+        <section class="game-description">
+            <h3></h3>
+            <p></p>
+            <div class="action">
+                <button class="btn">Play</button>
+                <button class="btn">Leaderboards</button>
+            </div>
+        </section>
+
         <section class="slider">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><div class="slide-content" >Slide Content</div></div>
-                    <div class="swiper-slide"><div class="slide-content" id="game2">Game 02</div></div>
-                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
-                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
-                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-title="Microbit Shooter" data-desc="Remember Galaga? That's about it, but we made it easier for you." >Game 01</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-title="Microbit React" data-desc="Follow the instructions on the screen and react accordingly. The quicker you react, the higher you score!" >Game 02</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-title="Microbit Action" data-desc="Description" >Game 03</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-title="Game 04" data-desc="Description">Coming Soon!</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-title="Game 05" data-desc="Description">Coming Soon!</div></div>
                 </div>
             </div>
         </section>
 
-        <button id="scanMicrobit">Scan Microbit</button>
+        <div class="microbit-status-wrapper">
+            <p>Hold your horses mate! We could not find a Microbit. </p>
+            <button id="scanMicrobit" class="btn">Scan</button>
+            <p class="microbit-status"></p>
+        </div>
 
-        <button id="btn1">Speak to Microbit 1</button>
-        <button id="btn2">Speak to Microbit 2</button>
+        <!-- <button id="btn1">Speak to Microbit 1</button>
+        <button id="btn2">Speak to Microbit 2</button> -->
     
-        <pre>
-            <code id="output">
-                
-            </code>
-        </pre>
-
-        <p id="outputRaw"></p>
     </main>
 
     <aside id="friends" class="bg-light text-dark">

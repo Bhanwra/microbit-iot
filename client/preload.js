@@ -7,6 +7,8 @@ let connected = false
 window.addEventListener('DOMContentLoaded', () => {
     const outputObject = document.getElementById("output")
     const scanButton = document.getElementById("scanMicrobit")
+    
+    const microbitStatusWrapper = document.querySelector('.microbit-status-wrapper')
 
     scanButton.addEventListener("click", () => {
         ipcRenderer.invoke("scan_microbit")
@@ -22,6 +24,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
         document.querySelector(".device-name").innerText = connectedDevice.serialNumber
         document.querySelector(".device-status").innerText = "Connected"
+
+        microbitStatusWrapper.style.display = "none"
+        swiper.update()
+    })
+
+    ipcRenderer.on('device_not_found', (event) => {
+        microbitStatus.querySelector(".microbit-status") = "No device found ☹"
     })
 
     ipcRenderer.on('players_updated', (event, playerList) => {
@@ -37,18 +46,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
     loginForm.querySelector("input").focus()
 
-    document.getElementById('btn1').addEventListener('click', () => {
-        doThis('run_game_1')
-    })
+    // document.getElementById('btn1').addEventListener('click', () => {
+    //     doThis('run_game_1')
+    // })
 
-    document.getElementById('btn2').addEventListener('click', () => {
-        doThis('run_game_2')
-    })
+    // document.getElementById('btn2').addEventListener('click', () => {
+    //     doThis('run_game_2')
+    // })
 
     // slider inits
+    const gameDescription = document.querySelector(".game-description")
+
+    const selectGame = (swiper) => {
+        let selectedSlide = swiper.slides[swiper.activeIndex]
+        console.log(selectedSlide.querySelector(".slide-content").getAttribute("data-title"))
+        document.querySelector(".game-description h3").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-title")
+        document.querySelector(".game-description p").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-desc")
+    }
+
     const swiper = new Swiper('.swiper-container', {
-        slidesPerView: 4
+        slidesPerView: 3,
+        observer: true,
+        observeParents: true,
+        slideActiveClass: "active",
+        slideToClickedSlide: true,
+        loop: true,
+        on: {
+            init: (e) => { selectGame(e) },
+            slideChange: (e) => { selectGame(e) }
+        }
     })
+
 
     document.getElementById("game2").addEventListener("click", () => {
         ipcRenderer.send('loadGame2')

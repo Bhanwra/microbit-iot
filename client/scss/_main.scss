@@ -3,11 +3,8 @@ body {
     grid-template-areas: 
         "header header header friends"
         "main main main friends"
-        "main main main friends"
-        "main main main friends"
-        "main main main friends"
     ;
-    grid-auto-rows: 1fr;
+    grid-auto-rows: 1fr 5fr;
     grid-auto-columns: 1fr;
     height: 100vh;
     max-height: 100vh;
@@ -50,6 +47,51 @@ body {
 #main {
     grid-area: main;
     padding: $unit;
+    position: relative;
+    display: grid;
+    grid-template-areas: 
+        "poster slider slider"
+        "poster slider slider"
+        "poster description description"
+    ;
+    grid-auto-rows: 1fr;
+    grid-auto-columns: 1fr;
+
+    .game-poster {
+        grid-area: poster;
+    }
+
+    .game-description {
+        grid-area: description;
+
+        h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5em;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+    }
+
+    .microbit-status-wrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: map-get($map: $colorMap, $key: "dark");
+        z-index: 998;
+
+        p {
+            margin: 1rem 0;
+        }
+    }
 }
 
 #friends {

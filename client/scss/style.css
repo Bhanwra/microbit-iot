@@ -8,11 +8,11 @@
 }
 
 .bg-accent {
-  background-color: #ff14ba;
+  background-color: #AE26DE;
 }
 
 .text-accent {
-  color: #ff14ba;
+  color: #AE26DE;
 }
 
 .bg-dark {
@@ -50,8 +50,8 @@
 body {
   display: -ms-grid;
   display: grid;
-      grid-template-areas: "header header header friends" "main main main friends" "main main main friends" "main main main friends" "main main main friends";
-  grid-auto-rows: 1fr;
+      grid-template-areas: "header header header friends" "main main main friends";
+  grid-auto-rows: 1fr 5fr;
   grid-auto-columns: 1fr;
   height: 100vh;
   max-height: 100vh;
@@ -102,16 +102,72 @@ body {
 
 #main {
   -ms-grid-row: 2;
-  -ms-grid-row-span: 4;
   -ms-grid-column: 1;
   -ms-grid-column-span: 3;
   grid-area: main;
   padding: 1rem;
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+      grid-template-areas: "poster slider slider" "poster slider slider" "poster description description";
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+}
+
+#main .game-poster {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 3;
+  -ms-grid-column: 1;
+  grid-area: poster;
+}
+
+#main .game-description {
+  -ms-grid-row: 3;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 2;
+  grid-area: description;
+}
+
+#main .game-description h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5em;
+}
+
+#main .game-description p {
+  margin-bottom: 1rem;
+}
+
+#main .microbit-status-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #1b1b1b;
+  z-index: 998;
+}
+
+#main .microbit-status-wrapper p {
+  margin: 1rem 0;
 }
 
 #friends {
   -ms-grid-row: 1;
-  -ms-grid-row-span: 5;
+  -ms-grid-row-span: 2;
   -ms-grid-column: 4;
   grid-area: friends;
   padding: 1rem;
@@ -183,7 +239,7 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 20, 186, 0.5);
+  background-color: rgba(174, 38, 222, 0.95);
   z-index: -1;
 }
 
@@ -191,6 +247,10 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .login-pane form input {
@@ -206,36 +266,86 @@ body {
   width: 100%;
 }
 
+.login-pane form input::-webkit-input-placeholder {
+  color: rgba(240, 240, 240, 0.7);
+}
+
+.login-pane form input:-ms-input-placeholder {
+  color: rgba(240, 240, 240, 0.7);
+}
+
+.login-pane form input::-ms-input-placeholder {
+  color: rgba(240, 240, 240, 0.7);
+}
+
+.login-pane form input::placeholder {
+  color: rgba(240, 240, 240, 0.7);
+}
+
 .login-pane form button {
   background-color: transparent;
   border: none;
   outline: none;
   display: inline-block;
-  font-size: 3em;
+  font-size: 2em;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
-  border: solid thin;
+  font-weight: lighter;
 }
 
 .slider {
   width: 100%;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 2;
+  grid-area: slider;
+  position: relative;
 }
 
-.slider .swiper-slide {
+.slider .swiper-container {
+  height: 100%;
+}
+
+.slider .swiper-container .swiper-slide {
+  padding: 1rem 0;
   padding-right: 1rem;
-  margin: 1rem 0;
+  opacity: 0.5;
 }
 
-.slider .swiper-slide .slide-content {
+.slider .swiper-container .swiper-slide.active {
+  opacity: 1;
+}
+
+.slider .swiper-container .swiper-slide .slide-content {
   cursor: pointer;
   background-color: #F0F0F0;
   color: #1b1b1b;
   padding: 1rem;
   border-radius: 0.5rem;
+  height: 100%;
 }
 
-.slider .swiper-slide .slide-content:hover {
+.slider .swiper-container .swiper-slide .slide-content:hover {
   background-color: #b0b0b0;
+}
+
+.btn {
+  background-color: transparent;
+  color: #F0F0F0;
+  font-size: 1em;
+  padding: 0.25em 0.5em;
+  border: solid thin #F0F0F0;
+  font-weight: lighter;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: #F0F0F0;
+  color: #1b1b1b;
 }
 
 * {
