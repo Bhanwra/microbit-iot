@@ -227,10 +227,15 @@ body {
 }
 
 .slider .swiper-slide .slide-content {
+  cursor: pointer;
   background-color: #F0F0F0;
   color: #1b1b1b;
   padding: 1rem;
   border-radius: 0.5rem;
+}
+
+.slider .swiper-slide .slide-content:hover {
+  background-color: #b0b0b0;
 }
 
 * {

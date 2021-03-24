@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
         populatePlayers(playerList)
     })
 
+    // close button
     const closeButton = document.getElementById('closeButton')
     closeButton.addEventListener('click', closeApp)
 
@@ -48,6 +49,11 @@ window.addEventListener('DOMContentLoaded', () => {
     const swiper = new Swiper('.swiper-container', {
         slidesPerView: 4
     })
+
+    document.getElementById("game2").addEventListener("click", () => {
+        ipcRenderer.send('loadGame2')
+    })
+
 })
 
 const closeApp = () => {

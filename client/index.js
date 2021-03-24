@@ -111,4 +111,31 @@ function initMicrobit(device) {
             })
         })
     }
-} 
+}
+
+ipcMain.on('loadGame2', (event) => {
+    loadGame2()
+})
+
+function loadGame2() {
+    if ( window ) {
+        window.hide() 
+    
+        window = new BrowserWindow({
+            width: 1080,
+            height: 540,
+            frame: false,
+            webPreferences: {
+                preload: path.join(__dirname, 'games/game2.js')
+            },
+            show: false
+        })
+    
+        window.loadFile('games/game2.html')
+
+        window.once("ready-to-show", () => {
+            window.show()
+        })
+    
+    }
+}

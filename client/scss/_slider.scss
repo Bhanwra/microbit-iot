@@ -6,10 +6,15 @@
         margin: $unit 0;
 
         .slide-content {
+            cursor: pointer;
             background-color: map-get($map: $colorMap, $key: "light");
             color: map-get($map: $colorMap, $key: "dark");
             padding: $unit;
             border-radius: $borderRadius;
+
+            &:hover {
+                background-color: darken($color: map-get($map: $colorMap, $key: "light"), $amount: 25);
+            }
         }
     }
 }
