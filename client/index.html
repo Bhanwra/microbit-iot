@@ -13,6 +13,7 @@
         <a id="closeButton">x</a>
     </section>
 
+    <input type="checkbox" hidden id="login-check">
     <section class="login-pane">
         <form action="#" method="GET" id="loginForm">
             <input type="text" placeholder="Enter Username" >
@@ -42,11 +43,9 @@
         <p id="outputRaw"></p>
     </main>
 
-    <aside id="friends">
+    <aside id="friends" class="bg-light text-dark">
         <h2>Friends</h2>
-        <div class="friends-wrapper">
-
-        </div>
+        <div class="friends-wrapper" id="friendsWrapper"> <!-- friends content populated here --> </div>
     </aside>
 
 </body>

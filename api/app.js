@@ -46,11 +46,13 @@ const io = require('socket.io')(httpServer, {})
 
 let playerList = []
 
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   console.log(`[CONNECT]:`, socket.id)
 
   let player = {
-    socket: socket.id
+    socket: socket.id,
+    username: (socket.handshake.query.name) ? socket.handshake.query.name : 'Invalid Name',
+    microbit: false
   }
 
   playerConnected(player)
@@ -60,7 +62,13 @@ io.on('connection', socket => {
       playerDisconnected(player)
   })
 
+  socket.on('microbit_connected', (device) => {
+    console.log(device)
+    player.microbit = true
+    updatePlayers()
+  })
 })
+
 
 httpServer.listen(80)
 

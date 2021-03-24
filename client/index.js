@@ -5,7 +5,7 @@ const SerialPort = require("serialport");
 const Readline = SerialPort.parsers.Readline
 
 const io = require('socket.io-client')
-const socket = io('http://155.138.143.42/')
+let playerSocket = null
 
 let window = null;
 
@@ -38,12 +38,24 @@ app.on('window-all-closed', () => {
     }
 })
 
-ipcMain.handle("hello", (event, args) => {
-    console.log(args)
-})
-
 ipcMain.handle("scan_microbit", (event, args) => {
     let device = scanMicrobit()
+})
+
+ipcMain.handle('app_connect', (event, playerName = 'Invalid Name') => {
+    playerSocket = io('http://155.138.143.42/', {
+        query: {
+            name: playerName
+        }
+    })
+
+    playerSocket.on("connect", () => {
+        console.log("Connected")
+    })
+
+    playerSocket.on("players", (playerList) => {
+        window.webContents.send('players_updated', playerList)
+    })
 })
 
 ipcMain.handle('app_close', (event, args) => {
@@ -51,7 +63,6 @@ ipcMain.handle('app_close', (event, args) => {
 })
 
 function scanMicrobit() {
-    connectToServer()
     SerialPort.list().then((ports) => {
         ports.forEach(device => {
             if ( ["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204" ) {
@@ -80,25 +91,19 @@ function initMicrobit(device) {
 
             window.webContents.send("device_connected", device)
 
+            if ( playerSocket ) {
+                console.log("Sending to server")
+                playerSocket.emit('microbit_connected', device)
+            }
+
             parser.on('data', (data) => {
                 console.log(data)
 
                 ipcMain.emit("data", data)
 
                 window.webContents.send("data", data)
+
             })
         })
     }
 } 
-
-function connectToServer() {
-
-}
-
-socket.on("connect", () => {
-    console.log("Connected to server!")
-})
-
-socket.on("players", (playerList) => {
-    console.log(playerList)
-})

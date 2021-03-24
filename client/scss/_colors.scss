@@ -1,7 +1,9 @@
 $colorMap: (
     "accent": #ff14ba,
     "dark": #1b1b1b,
-    "light": #F0F0F0
+    "light": #F0F0F0,
+    "success": seagreen,
+    "danger": indianred
 );
 
 @each $key, $color in $colorMap {
