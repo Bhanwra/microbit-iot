@@ -97,12 +97,17 @@ function initMicrobit(device) {
             }
 
             parser.on('data', (data) => {
-                console.log(data)
+                console.log(JSON.stringify(data))
 
                 ipcMain.emit("data", data)
 
                 window.webContents.send("data", data)
+            })
 
+            // sends a signal to microbit
+            ipcMain.on('microbit_send', (event, data) => {
+                console.log("signal received", "sending to microbit", data)
+                microBit.write(`${data}\n`)
             })
         })
     }

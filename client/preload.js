@@ -33,6 +33,14 @@ window.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener("submit", loginAction)
 
     loginForm.querySelector("input").focus()
+
+    document.getElementById('btn1').addEventListener('click', () => {
+        doThis('run_game_1')
+    })
+
+    document.getElementById('btn2').addEventListener('click', () => {
+        doThis('run_game_2')
+    })
 })
 
 const closeApp = () => {
@@ -78,4 +86,10 @@ const populatePlayers = (playerList) => {
     })
 
     friendsWrapper.innerHTML = content
+}
+
+
+const doThis = (num) => {
+    console.log("sending from front-end to back-end")
+    ipcRenderer.send('microbit_send', num)
 }
