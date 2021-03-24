@@ -1,4 +1,5 @@
 const { ipcRenderer } = require("electron")
+const { Swiper } = require('swiper')
 
 let device = false
 let connected = false
@@ -9,6 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     scanButton.addEventListener("click", () => {
         ipcRenderer.invoke("scan_microbit")
+
     })
 
     ipcRenderer.on("data", (event, args) => {
@@ -40,6 +42,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn2').addEventListener('click', () => {
         doThis('run_game_2')
+    })
+
+    // slider inits
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 4
     })
 })
 

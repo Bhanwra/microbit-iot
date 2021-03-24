@@ -6,6 +6,8 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 
     <link rel="stylesheet" href="./css/style.min.css">
+
+    <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.css">
 </head>
 <body class="bg-dark text-light">
 
@@ -32,6 +34,19 @@
     </header>
 
     <main id="main">
+
+        <section class="slider">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
+                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
+                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
+                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
+                    <div class="swiper-slide"><div class="slide-content">Slide Content</div></div>
+                </div>
+            </div>
+        </section>
+
         <button id="scanMicrobit">Scan Microbit</button>
 
         <button id="btn1">Speak to Microbit 1</button>

@@ -217,6 +217,22 @@ body {
   border: solid thin;
 }
 
+.slider {
+  width: 100%;
+}
+
+.slider .swiper-slide {
+  padding-right: 1rem;
+  margin: 1rem 0;
+}
+
+.slider .swiper-slide .slide-content {
+  background-color: #F0F0F0;
+  color: #1b1b1b;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
 * {
   margin: 0;
   padding: 0;

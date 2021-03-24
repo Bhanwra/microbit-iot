@@ -1,0 +1,15 @@
+.slider {
+    width: 100%;
+
+    .swiper-slide {
+        padding-right: $unit;
+        margin: $unit 0;
+
+        .slide-content {
+            background-color: map-get($map: $colorMap, $key: "light");
+            color: map-get($map: $colorMap, $key: "dark");
+            padding: $unit;
+            border-radius: $borderRadius;
+        }
+    }
+}
