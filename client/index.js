@@ -1,4 +1,8 @@
-const { BrowserWindow, app, ipcMain } = require("electron");
+const {
+    BrowserWindow,
+    app,
+    ipcMain
+} = require("electron");
 const path = require('path');
 
 const SerialPort = require("serialport");
@@ -7,7 +11,9 @@ const Readline = SerialPort.parsers.Readline
 const io = require('socket.io-client')
 let playerSocket = null
 
-let mainWindow = null, gameWindow = null, leaderboardsWindow = null
+let mainWindow = null,
+    gameWindow = null,
+    leaderboardsWindow = null
 
 let activeGame = false
 
@@ -28,14 +34,14 @@ app.whenReady().then(() => {
     createWindow()
 
     app.on("activate", () => {
-        if ( BrowserWindow.getAllWindows().length == 0 ) {
+        if (BrowserWindow.getAllWindows().length == 0) {
             createWindow()
         }
     })
 })
 
 app.on('window-all-closed', () => {
-    if ( process.platform !== 'darwin' ) {
+    if (process.platform !== 'darwin') {
         app.quit()
     }
 })
@@ -73,25 +79,25 @@ ipcMain.handle('app_close', (event, args) => {
 
 ipcMain.on('app_home', (event) => {
     console.log("Home requested")
-    if ( gameWindow ) {
+    if (gameWindow) {
         gameWindow.hide()
     }
-    if ( leaderboardsWindow ) {
+    if (leaderboardsWindow) {
         leaderboardsWindow.hide()
     }
-    if ( mainWindow ) {
+    if (mainWindow) {
         mainWindow.show()
-        if ( playerSocket ) {
+        if (playerSocket) {
             playerSocket.emit('status_update', 'Idle')
         }
     }
 })
 
 ipcMain.on('loadGame', (event, gameNum) => {
-    console.log("Trying to load: "+ gameNum)
-    switch(gameNum) {
+    console.log("Trying to load: " + gameNum)
+    switch (gameNum) {
         case 1:
-        case 2: 
+        case 2:
             loadGame(gameNum)
             break
         default:
@@ -100,13 +106,13 @@ ipcMain.on('loadGame', (event, gameNum) => {
 })
 
 ipcMain.on('status_update', (event, status) => {
-    if ( playerSocket ) {
+    if (playerSocket) {
         playerSocket.emit('status_update', status)
     }
 })
 
 ipcMain.on('submit_score', (event, gameID, score) => {
-    if ( playerSocket ) {
+    if (playerSocket) {
         playerSocket.emit('submit_score', gameID, score)
     }
 })
@@ -116,7 +122,7 @@ ipcMain.on('loadLeadeboards', (event, gameID) => {
 })
 
 ipcMain.on('get_leaderboards', (event, gameID) => {
-    if ( playerSocket ) {
+    if (playerSocket) {
         playerSocket.emit('get_leaderboards', gameID)
     }
 })
@@ -124,7 +130,7 @@ ipcMain.on('get_leaderboards', (event, gameID) => {
 function scanMicrobit() {
     SerialPort.list().then((ports) => {
         ports.forEach(device => {
-            if ( ["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204" ) {
+            if (["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204") {
                 // is a microbit
                 console.log("Microbit found!")
 
@@ -135,7 +141,7 @@ function scanMicrobit() {
 }
 
 function initMicrobit(device) {
-    if ( device != false ) {
+    if (device != false) {
         const microBit = new SerialPort(device.path, {
             baudRate: 115200,
             autoOpen: false
@@ -150,20 +156,36 @@ function initMicrobit(device) {
 
             mainWindow.webContents.send("device_connected", device)
 
-            if ( playerSocket ) {
+            if (playerSocket) {
                 console.log("Sending to server")
                 playerSocket.emit('microbit_connected', device)
             }
 
             parser.on('data', (data) => {
-                console.log(JSON.stringify(data))
+                // console.log(JSON.stringify(data))
 
                 ipcMain.emit("data", data)
 
                 mainWindow.webContents.send("data", data)
 
-                if ( activeGame == 1 && gameWindow ) {
+                if (activeGame == 1 && gameWindow) {
                     gameWindow.webContents.send("game_input", data)
+                }
+
+                if (activeGame == 2 && gameWindow) {
+                    if (data.indexOf("seconds") > -1) {
+                        data = data.split(":")[1].trim()
+                        gameWindow.webContents.send("random_seconds", data)
+
+                    } else if (data.indexOf("action") > -1) {
+                        data = data.split(":")[1].trim()
+                        gameWindow.webContents.send("random_action", data)
+
+                    } else if (data.indexOf("points") > -1) {
+                        data = data.split(":")[1].trim()
+                        gameWindow.webContents.send("random_points", data)
+
+                    }
                 }
             })
 
@@ -172,14 +194,20 @@ function initMicrobit(device) {
                 console.log("signal received", "sending to microbit", data)
                 microBit.write(`${data}\n`)
             })
+
+            // sends a signal to microbit
+            ipcMain.on('microbit_send', (event, data) => {
+                console.log("signal received", "sending to microbit", data)
+                microBit.write(`start \n`)
+            })
         })
     }
 }
 
 function loadGame(gameNum) {
-    if ( mainWindow ) {
-        mainWindow.hide() 
-    
+    if (mainWindow) {
+        mainWindow.hide()
+
         gameWindow = new BrowserWindow({
             width: 1080,
             height: 540,
@@ -189,22 +217,22 @@ function loadGame(gameNum) {
             },
             show: false
         })
-    
+
         gameWindow.loadFile(`games/game${gameNum}.html`)
 
         gameWindow.once("ready-to-show", () => {
             activeGame = gameNum
             gameWindow.show()
-            
+
         })
-    
+
     }
 }
 
 function loadLeaderboards(gameID) {
-    if ( mainWindow ) {
-        mainWindow.hide() 
-    
+    if (mainWindow) {
+        mainWindow.hide()
+
         leaderboardsWindow = new BrowserWindow({
             width: 1080,
             height: 540,
@@ -215,12 +243,12 @@ function loadLeaderboards(gameID) {
             },
             show: false
         })
-    
+
         leaderboardsWindow.loadFile(`games/leaderboards.html`)
 
         leaderboardsWindow.once("ready-to-show", () => {
             leaderboardsWindow.show()
         })
-    
+
     }
 }
