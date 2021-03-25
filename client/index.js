@@ -81,6 +81,9 @@ ipcMain.on('app_home', (event) => {
     }
     if ( mainWindow ) {
         mainWindow.show()
+        if ( playerSocket ) {
+            playerSocket.emit('status_update', 'Idle')
+        }
     }
 })
 

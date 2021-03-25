@@ -22,6 +22,8 @@
                 padding: $unit;
                 border-radius: $borderRadius;
                 height: 100%;
+                font-size: 3em;
+                font-weight: bold;
     
                 &:hover {
                     background-color: darken($color: map-get($map: $colorMap, $key: "light"), $amount: 25);
