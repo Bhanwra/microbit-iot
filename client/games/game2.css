@@ -92,7 +92,7 @@
 #btn_a,
 #logo_pressed {
     fill: #fff;
-    transform-origin: center;
+    transform-origin: center center;
 }
 
 .active_gest {

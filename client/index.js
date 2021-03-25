@@ -192,6 +192,12 @@ function initMicrobit(device) {
                 console.log("signal received", "sending to microbit", data)
                 microBit.write(`${data}\n`)
             })
+
+            // sends a signal to microbit
+            ipcMain.on('microbit_send', (event, data) => {
+                console.log("signal received", "sending to microbit", data)
+                microBit.write(`start \n`)
+            })
         })
     }
 }
