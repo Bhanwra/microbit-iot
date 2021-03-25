@@ -46,6 +46,16 @@ const io = require('socket.io')(httpServer, {})
 
 let playerList = []
 
+let leaderboards = [
+  {
+    game: 1,
+    highScore: {
+      player: '',
+      score: 0
+    }
+  }
+]
+
 io.on('connection', (socket) => {
   console.log(`[CONNECT]:`, socket.id)
 
@@ -71,6 +81,21 @@ io.on('connection', (socket) => {
   socket.on('status_update', (status) => {
     player.status = status
     updatePlayers()
+  })
+
+  socket.on('submit_score', (game, score) => {
+
+    if ( leaderboards[(game-1)].highScore.score < score ) {
+      // new highscore
+      leaderboards[(game-1)].highScore.player = player.username
+      leaderboards[(game-1)].highScore.score = score
+    }
+
+    console.log(leaderboards)
+  })
+
+  socket.on('get_leaderboards', (game) => {
+    socket.emit('show_leaderboards', leaderboards[(game-1)])
   })
 })
 

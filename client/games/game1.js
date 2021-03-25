@@ -12,11 +12,13 @@ const playerPos = {
     y: grid.y - 1
 }
 
+const gameID = 1
+
 let enemiesOnScreen = []
 const enemyMoveSpeed = 1000
 let enemyGenerator = null
 
-const maxEnemies = 5
+const maxEnemies = 2
 let lastEnemySpawned = false
 
 let score = 0
@@ -195,6 +197,8 @@ const endGame = (won = false) => {
 
         endScreen.style.display = "flex"
 
+        ipcRenderer.send("submit_score", gameID, score)
+
         score = 0
     } else {
         let endScreen = document.querySelector(".end-screen")
@@ -258,8 +262,6 @@ class Enemy {
 
         // highscore addition
         score += (grid.y - this.y)
-
-        console.log("New Score: ", score)
 
         if ( lastEnemySpawned && enemiesOnScreen.length == 0 ) {
             endGame(true)

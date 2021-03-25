@@ -7,7 +7,7 @@ const Readline = SerialPort.parsers.Readline
 const io = require('socket.io-client')
 let playerSocket = null
 
-let mainWindow = null, gameWindow = null
+let mainWindow = null, gameWindow = null, leaderboardsWindow = null
 
 let activeGame = false
 
@@ -61,6 +61,10 @@ ipcMain.handle('app_connect', (event, playerName = 'Invalid Name') => {
     playerSocket.on("players", (playerList) => {
         mainWindow.webContents.send('players_updated', playerList)
     })
+
+    playerSocket.on('show_leaderboards', (score) => {
+        leaderboardsWindow.webContents.send('received_leaderboards', score)
+    })
 })
 
 ipcMain.handle('app_close', (event, args) => {
@@ -71,6 +75,9 @@ ipcMain.on('app_home', (event) => {
     console.log("Home requested")
     if ( gameWindow ) {
         gameWindow.hide()
+    }
+    if ( leaderboardsWindow ) {
+        leaderboardsWindow.hide()
     }
     if ( mainWindow ) {
         mainWindow.show()
@@ -92,6 +99,22 @@ ipcMain.on('loadGame', (event, gameNum) => {
 ipcMain.on('status_update', (event, status) => {
     if ( playerSocket ) {
         playerSocket.emit('status_update', status)
+    }
+})
+
+ipcMain.on('submit_score', (event, gameID, score) => {
+    if ( playerSocket ) {
+        playerSocket.emit('submit_score', gameID, score)
+    }
+})
+
+ipcMain.on('loadLeadeboards', (event, gameID) => {
+    loadLeaderboards(gameID)
+})
+
+ipcMain.on('get_leaderboards', (event, gameID) => {
+    if ( playerSocket ) {
+        playerSocket.emit('get_leaderboards', gameID)
     }
 })
 
@@ -169,6 +192,31 @@ function loadGame(gameNum) {
         gameWindow.once("ready-to-show", () => {
             activeGame = gameNum
             gameWindow.show()
+            
+        })
+    
+    }
+}
+
+function loadLeaderboards(gameID) {
+    if ( mainWindow ) {
+        mainWindow.hide() 
+    
+        leaderboardsWindow = new BrowserWindow({
+            width: 1080,
+            height: 540,
+            frame: false,
+            webPreferences: {
+                preload: path.join(__dirname, `games/leaderboards.js`),
+                additionalArguments: [`game_ID=${gameID}`]
+            },
+            show: false
+        })
+    
+        leaderboardsWindow.loadFile(`games/leaderboards.html`)
+
+        leaderboardsWindow.once("ready-to-show", () => {
+            leaderboardsWindow.show()
         })
     
     }

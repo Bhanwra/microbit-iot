@@ -64,10 +64,15 @@ window.addEventListener('DOMContentLoaded', () => {
         let playAction = () => {
             ipcRenderer.send("loadGame", Number(selectedSlide.querySelector(".slide-content").getAttribute("data-game")))
         }
+
+        let openLeaderboads = () => {
+            ipcRenderer.send('loadLeadeboards', Number(selectedSlide.querySelector(".slide-content").getAttribute("data-game")))
+        }
         
         document.querySelector(".game-description h3").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-title")
         document.querySelector(".game-description p").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-desc")
         document.querySelector(".game-description .btn-play").onclick = playAction
+        document.querySelector(".game-description .btn-leaderboards").onclick = openLeaderboads
     }
 
     const swiper = new Swiper('.swiper-container', {
