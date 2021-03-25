@@ -43,15 +43,15 @@
 #bit_vectors {
     width: 300px;
     margin: auto;
+}
 
-    .bitcons {
-        width: 300px;
-    }
+.bitcons {
+    width: 300px;
+}
 
-    #shake {
-        display: none;
-        animation: shake 0.1s ease-in-out 0.1s infinite alternate;
-    }
+#shake {
+    display: none;
+    animation: shake 0.1s ease-in-out 0.1s infinite alternate;
 }
 
 @keyframes shake {
