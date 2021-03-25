@@ -1,24 +1,20 @@
 body {
     display: grid;
-    grid-template-areas:
+    grid-template-areas: 
         "header header header friends"
         "main main main friends"
-        "main main main friends"
-        "main main main friends"
-        "main main main friends"
     ;
-    grid-auto-rows: 1fr;
+    grid-auto-rows: 1fr 5fr;
     grid-auto-columns: 1fr;
     height: 100vh;
     max-height: 100vh;
     padding-top: $topRibbonHeight;
-    position: relative;
 }
 
 .tool-ribbon {
     padding: 0.5*$unit;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     position: fixed;
     height: $topRibbonHeight;
     max-height: $topRibbonHeight;
@@ -51,6 +47,56 @@ body {
 #main {
     grid-area: main;
     padding: $unit;
+    position: relative;
+    display: grid;
+    grid-template-areas: 
+        "poster slider slider"
+        "poster slider slider"
+        "poster description description"
+    ;
+    grid-auto-rows: 1fr;
+    grid-auto-columns: 1fr;
+
+    .game-poster {
+        grid-area: poster;
+    }
+
+    .game-description {
+        grid-area: description;
+
+        h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5em;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .microbit-status-wrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: map-get($map: $colorMap, $key: "dark");
+        z-index: 998;
+
+        p {
+            margin: 1rem 0;
+        }
+    }
 }
 
 #friends {
@@ -71,14 +117,25 @@ body {
             line-height: 1;
         }
 
-        h3 {
+        .friend-info {
             padding: 1em;
+            display: flex;
+            flex-direction: column;
+
+            p {
+                font-size: small;
+                color: lighten($color: map-get($colorMap, "dark"), $amount: 50);
+
+                strong {
+                    color: map-get($map: $colorMap, $key: "accent");
+                }
+            }
         }
 
         .microbit {
             max-width: 2em;
             justify-self: flex-end;
-
+            
             &.connected {
                 path {
                     fill: map-get($map: $colorMap, $key: "success") !important;

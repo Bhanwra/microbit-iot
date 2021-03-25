@@ -1,0 +1,33 @@
+.slider {
+    width: 100%;
+    grid-area: slider;
+    position: relative;
+
+    .swiper-container {
+        height: 100%;
+
+        .swiper-slide {
+            padding: $unit 0;
+            padding-right: $unit;
+            opacity: 0.5;
+            
+            &.active {
+                opacity: 1;
+            }
+    
+            .slide-content {
+                cursor: pointer;
+                background-color: map-get($map: $colorMap, $key: "light");
+                color: map-get($map: $colorMap, $key: "dark");
+                padding: $unit;
+                border-radius: $borderRadius;
+                height: 100%;
+    
+                &:hover {
+                    background-color: darken($color: map-get($map: $colorMap, $key: "light"), $amount: 25);
+                }
+            }
+        }
+    }
+
+}

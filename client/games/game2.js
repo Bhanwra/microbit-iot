@@ -2,14 +2,20 @@ const {
     ipcRenderer
 } = require("electron")
 
-let device = false
-let connected = false
+const gameID = 1
+let score = 0
 
 window.addEventListener('DOMContentLoaded', () => {
-    const scanButton = document.getElementById("scanMicrobit")
+    // Updating Player Status
+    ipcRenderer.send("status_update", "Playing <strong>Microbit React</strong>")
+
+    /**
+     * Activating Microbit
+     * This would set the activeGame to 1; Any input received from Microbit would also be sent to this controller"
+     */
+    ipcRenderer.send("microbit_send", "run_game_2")
+
     const pointAnime = document.getElementById("addpoints")
-
-
     const sec_left = document.getElementById("random_seconds")
     const points = document.getElementById("pointAcc")
     const action_name = document.getElementById("action_name")
@@ -19,10 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
     let btn_a = document.getElementById("btn_a")
     let btn_b = document.getElementById("btn_b")
     let logo_pressed = document.getElementById("logo_pressed")
-
-    scanButton.addEventListener("click", () => {
-        ipcRenderer.invoke("scan_microbit")
-    })
 
     ipcRenderer.on("random_seconds", (event, args) => {
         sec_left.innerHTML = args
@@ -75,4 +77,21 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     })
+
+
+    // home button
+    const homeButton = document.getElementById("homeButton")
+    homeButton.onclick = () => {
+        console.log("clicked")
+        ipcRenderer.send('app_home')
+    }
+
+    // close button
+    const closeButton = document.getElementById('closeButton')
+    closeButton.addEventListener('click', closeApp)
+
 })
+
+const closeApp = () => {
+    ipcRenderer.invoke('app_close')
+}

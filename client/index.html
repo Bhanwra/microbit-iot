@@ -6,18 +6,21 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 
     <link rel="stylesheet" href="./css/style.min.css">
+
+    <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.css">
 </head>
 <body class="bg-dark text-light">
 
     <section class="tool-ribbon">
+        <a></a>
         <a id="closeButton">x</a>
     </section>
 
     <input type="checkbox" hidden id="login-check">
     <section class="login-pane">
         <form action="#" method="GET" id="loginForm">
+            <button type="submit">Press Enter</button>
             <input type="text" placeholder="Enter Username" >
-            <button type="submit">Login</button>
         </form>
     </section>
 
@@ -32,15 +35,41 @@
     </header>
 
     <main id="main">
-        <button id="scanMicrobit">Scan Microbit</button>
-    
-        <pre>
-            <code id="output">
-                
-            </code>
-        </pre>
 
-        <p id="outputRaw"></p>
+        <section class="game-poster">
+            poster
+        </section>
+
+        <section class="game-description">
+            <h3></h3>
+            <p></p>
+            <div class="actions">
+                <button class="btn btn-play">Play</button>
+                <button class="btn btn-leaderboards">Leaderboards</button>
+            </div>
+        </section>
+
+        <section class="slider">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><div class="slide-content" data-game="1" data-title="Microbit Shooter" data-desc="Remember Galaga? That's about it, but we made it easier for you." >Game 01</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-game="2" data-title="Microbit React" data-desc="Follow the instructions on the screen and react accordingly. The quicker you react, the higher you score!" >Game 02</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-game="3" data-title="Microbit Action" data-desc="Description" >Game 03</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-game="4" data-title="Game 04" data-desc="Description">Coming Soon!</div></div>
+                    <div class="swiper-slide"><div class="slide-content" data-game="5" data-title="Game 05" data-desc="Description">Coming Soon!</div></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="microbit-status-wrapper">
+            <p>Hold your horses mate! We could not find a Microbit. </p>
+            <button id="scanMicrobit" class="btn">Scan</button>
+            <p class="microbit-status"></p>
+        </div>
+
+        <!-- <button id="btn1">Speak to Microbit 1</button>
+        <button id="btn2">Speak to Microbit 2</button> -->
+    
     </main>
 
     <aside id="friends" class="bg-light text-dark">
