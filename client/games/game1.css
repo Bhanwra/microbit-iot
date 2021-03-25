@@ -1,11 +1,14 @@
 body {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
     display: flex;
     width: 100%;
     height: 100%;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 .base-grid {
@@ -69,4 +72,20 @@ main {
 
 .end-screen p {
     font-size: large;
+}
+
+main .instructions {
+    width: 25ch;
+    padding: 1rem;
+    font-size: large;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main .instructions p {
+    margin-bottom: 1rem;
 }

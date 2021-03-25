@@ -87,6 +87,9 @@ ipcMain.on('app_home', (event) => {
     }
     if (mainWindow) {
         mainWindow.show()
+        if (playerSocket) {
+            playerSocket.emit('status_update', 'Idle')
+        }
     }
 })
 
@@ -159,7 +162,7 @@ function initMicrobit(device) {
             }
 
             parser.on('data', (data) => {
-                console.log(JSON.stringify(data))
+                // console.log(JSON.stringify(data))
 
                 ipcMain.emit("data", data)
 
@@ -184,7 +187,6 @@ function initMicrobit(device) {
 
                     }
                 }
-
             })
 
             // sends a signal to microbit

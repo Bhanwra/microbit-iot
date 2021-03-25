@@ -42,6 +42,18 @@ body {
 #header {
     grid-area: header;
     padding: $unit;
+
+    .device-info {
+
+        .device-status {
+            font-size: xx-large;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: bold;
+            text-align: center;
+        }
+    }
 }
 
 #main {
@@ -59,6 +71,18 @@ body {
 
     .game-poster {
         grid-area: poster;
+        padding: $unit;
+        
+        .poster-content {
+            background-color: map-get($map: $colorMap, $key: "light");
+            height: 100%;
+            border-radius: 0.5rem;
+            color: map-get($map: $colorMap, $key: "dark");
+            justify-content: center;
+            align-items: center;
+            font-size: x-large;
+            display: flex;
+        }
     }
 
     .game-description {

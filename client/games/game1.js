@@ -18,7 +18,7 @@ let enemiesOnScreen = []
 const enemyMoveSpeed = 1000
 let enemyGenerator = null
 
-const maxEnemies = 2
+const maxEnemies = 10
 let lastEnemySpawned = false
 
 let score = 0

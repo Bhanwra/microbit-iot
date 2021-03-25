@@ -22,8 +22,11 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.on("device_connected", (event, connectedDevice) => {
         device = connectedDevice
 
-        document.querySelector(".device-name").innerText = connectedDevice.serialNumber
-        document.querySelector(".device-status").innerText = "Connected"
+        // document.querySelector(".device-name").innerText = connectedDevice.serialNumber
+        let deviceStatus = document.querySelector(".device-status")
+        deviceStatus.innerText = "Connected"
+        deviceStatus.classList.remove("text-danger")
+        deviceStatus.classList.add("text-success")
 
         microbitStatusWrapper.style.display = "none"
         swiper.update()
@@ -46,14 +49,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     loginForm.querySelector("input").focus()
 
-    // document.getElementById('btn1').addEventListener('click', () => {
-    //     doThis('run_game_1')
-    // })
-
-    // document.getElementById('btn2').addEventListener('click', () => {
-    //     doThis('run_game_2')
-    // })
-
     // slider inits
     const gameDescription = document.querySelector(".game-description")
 
@@ -73,6 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.querySelector(".game-description p").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-desc")
         document.querySelector(".game-description .btn-play").onclick = playAction
         document.querySelector(".game-description .btn-leaderboards").onclick = openLeaderboads
+        document.querySelector('.game-poster .poster-content').innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-title")
     }
 
     const swiper = new Swiper('.swiper-container', {

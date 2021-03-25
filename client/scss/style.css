@@ -100,6 +100,15 @@ body {
   padding: 1rem;
 }
 
+#header .device-info .device-status {
+  font-size: xx-large;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+  text-align: center;
+}
+
 #main {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
@@ -119,6 +128,24 @@ body {
   -ms-grid-row-span: 3;
   -ms-grid-column: 1;
   grid-area: poster;
+  padding: 1rem;
+}
+
+#main .game-poster .poster-content {
+  background-color: #F0F0F0;
+  height: 100%;
+  border-radius: 0.5rem;
+  color: #1b1b1b;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: x-large;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 #main .game-description {
@@ -349,6 +376,8 @@ body {
   padding: 1rem;
   border-radius: 0.5rem;
   height: 100%;
+  font-size: 3em;
+  font-weight: bold;
 }
 
 .slider .swiper-container .swiper-slide .slide-content:hover {
