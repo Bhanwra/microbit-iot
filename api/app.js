@@ -52,7 +52,8 @@ io.on('connection', (socket) => {
   let player = {
     socket: socket.id,
     username: (socket.handshake.query.name) ? socket.handshake.query.name : 'Invalid Name',
-    microbit: false
+    microbit: false,
+    status: "Idle"
   }
 
   playerConnected(player)
@@ -63,8 +64,12 @@ io.on('connection', (socket) => {
   })
 
   socket.on('microbit_connected', (device) => {
-    console.log(device)
     player.microbit = true
+    updatePlayers()
+  })
+
+  socket.on('status_update', (status) => {
+    player.status = status
     updatePlayers()
   })
 })

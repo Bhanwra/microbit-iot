@@ -7,10 +7,12 @@ const Readline = SerialPort.parsers.Readline
 const io = require('socket.io-client')
 let playerSocket = null
 
-let window = null;
+let mainWindow = null, gameWindow = null
+
+let activeGame = false
 
 function createWindow() {
-    window = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1080,
         height: 540,
         frame: false,
@@ -19,7 +21,7 @@ function createWindow() {
         }
     })
 
-    window.loadFile('index.html')
+    mainWindow.loadFile('index.html')
 }
 
 app.whenReady().then(() => {
@@ -38,11 +40,14 @@ app.on('window-all-closed', () => {
     }
 })
 
+
+// Renderer to Main Events
 ipcMain.handle("scan_microbit", (event, args) => {
     let device = scanMicrobit()
 })
 
 ipcMain.handle('app_connect', (event, playerName = 'Invalid Name') => {
+    // Client = Server Events
     playerSocket = io('http://155.138.143.42/', {
         query: {
             name: playerName
@@ -54,12 +59,40 @@ ipcMain.handle('app_connect', (event, playerName = 'Invalid Name') => {
     })
 
     playerSocket.on("players", (playerList) => {
-        window.webContents.send('players_updated', playerList)
+        mainWindow.webContents.send('players_updated', playerList)
     })
 })
 
 ipcMain.handle('app_close', (event, args) => {
     app.quit();
+})
+
+ipcMain.on('app_home', (event) => {
+    console.log("Home requested")
+    if ( gameWindow ) {
+        gameWindow.hide()
+    }
+    if ( mainWindow ) {
+        mainWindow.show()
+    }
+})
+
+ipcMain.on('loadGame', (event, gameNum) => {
+    console.log("Trying to load: "+ gameNum)
+    switch(gameNum) {
+        case 1:
+        case 2: 
+            loadGame(gameNum)
+            break
+        default:
+            console.log("No Game Found")
+    }
+})
+
+ipcMain.on('status_update', (event, status) => {
+    if ( playerSocket ) {
+        playerSocket.emit('status_update', status)
+    }
 })
 
 function scanMicrobit() {
@@ -89,7 +122,7 @@ function initMicrobit(device) {
         microBit.open(() => {
             console.log("Microbit Port Opened!")
 
-            window.webContents.send("device_connected", device)
+            mainWindow.webContents.send("device_connected", device)
 
             if ( playerSocket ) {
                 console.log("Sending to server")
@@ -101,7 +134,11 @@ function initMicrobit(device) {
 
                 ipcMain.emit("data", data)
 
-                window.webContents.send("data", data)
+                mainWindow.webContents.send("data", data)
+
+                if ( activeGame == 1 && gameWindow ) {
+                    gameWindow.webContents.send("game_input", data)
+                }
             })
 
             // sends a signal to microbit
@@ -113,28 +150,25 @@ function initMicrobit(device) {
     }
 }
 
-ipcMain.on('loadGame2', (event) => {
-    loadGame2()
-})
-
-function loadGame2() {
-    if ( window ) {
-        window.hide() 
+function loadGame(gameNum) {
+    if ( mainWindow ) {
+        mainWindow.hide() 
     
-        window = new BrowserWindow({
+        gameWindow = new BrowserWindow({
             width: 1080,
             height: 540,
             frame: false,
             webPreferences: {
-                preload: path.join(__dirname, 'games/game2.js')
+                preload: path.join(__dirname, `games/game${gameNum}.js`)
             },
             show: false
         })
     
-        window.loadFile('games/game2.html')
+        gameWindow.loadFile(`games/game${gameNum}.html`)
 
-        window.once("ready-to-show", () => {
-            window.show()
+        gameWindow.once("ready-to-show", () => {
+            activeGame = gameNum
+            gameWindow.show()
         })
     
     }

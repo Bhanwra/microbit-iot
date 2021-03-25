@@ -60,8 +60,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const selectGame = (swiper) => {
         let selectedSlide = swiper.slides[swiper.activeIndex]
         console.log(selectedSlide.querySelector(".slide-content").getAttribute("data-title"))
+
+        let playAction = () => {
+            ipcRenderer.send("loadGame", Number(selectedSlide.querySelector(".slide-content").getAttribute("data-game")))
+        }
+        
         document.querySelector(".game-description h3").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-title")
         document.querySelector(".game-description p").innerText = selectedSlide.querySelector(".slide-content").getAttribute("data-desc")
+        document.querySelector(".game-description .btn-play").onclick = playAction
     }
 
     const swiper = new Swiper('.swiper-container', {
@@ -77,10 +83,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-
-    document.getElementById("game2").addEventListener("click", () => {
-        ipcRenderer.send('loadGame2')
-    })
+    ipcRenderer.send("status_update", "Idle")
 
 })
 
@@ -120,7 +123,7 @@ const populatePlayers = (playerList) => {
         content += `
             <div class="friend">
                 <span class="bg-dark text-light">A</span>
-                <h3>${player.username}</h3>
+                <h3 class="friend-info">${player.username}<p>${player.status}</p></h3>
                 ${microbit}
             </div>
         `
