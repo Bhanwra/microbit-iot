@@ -1,6 +1,6 @@
 body {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "header header header friends"
         "main main main friends"
         "main main main friends"
@@ -12,6 +12,7 @@ body {
     height: 100vh;
     max-height: 100vh;
     padding-top: $topRibbonHeight;
+    position: relative;
 }
 
 .tool-ribbon {
@@ -77,7 +78,7 @@ body {
         .microbit {
             max-width: 2em;
             justify-self: flex-end;
-            
+
             &.connected {
                 path {
                     fill: map-get($map: $colorMap, $key: "success") !important;

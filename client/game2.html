@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Microbit Client</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+    <link rel="stylesheet" href="./css/style.min.css">
+</head>
+
+<body class="bg-dark text-light" id="game2">
+
+    <section class="tool-ribbon">
+        <a id="closeButton">x</a>
+    </section>
+
+    <button id="scanMicrobit" style="position: absolute;">Scan Microbit</button>
+
+    <main>
+        <p id="random_seconds">60</p>
+
+
+        <p id="points">Total Points: <span id="pointAcc">0</span></p>
+
+        <p id="addpoints">
+            +1
+        </p>
+
+        <div id="bit_vectors">
+            <object data="assets/shake.svg" id="shake" class="bitcons" type=""></object>
+
+            <div id="other_gest" class="bitcons"><svg id="Layer_1" data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 726.37 493.12">
+                    <path class="cls-2"
+                        d="M584.05,95.56a31.54,31.54,0,0,0-31.49-31.49h0l-378.81.09a31.55,31.55,0,0,0-31.49,31.51l.07,301.89a31.53,31.53,0,0,0,31.49,31.49h0l378.8-.09a31.51,31.51,0,0,0,31.49-31.5Zm-31.42,320.8-378.8.09h0a18.93,18.93,0,0,1-18.89-18.89l-.07-301.89a18.94,18.94,0,0,1,18.89-18.91l378.81-.09h0a18.92,18.92,0,0,1,18.89,18.89l.08,301.9A18.93,18.93,0,0,1,552.63,416.36ZM318.6,86.2h-130a25.32,25.32,0,0,0-25.31,25.32v73.4l88.45-88.46v39.1l42.59-43.41v18.73Z" />
+                    <circle id="btn_b" cx="524.59" cy="291.07" r="21.62" />
+                    <circle id="btn_a" cx="201.83" cy="291.07" r="21.62" />
+                    <path id="logo_pressed"
+                        d="M406.32,169H320.05a48.56,48.56,0,0,0,0,97.12h86.27a48.56,48.56,0,1,0,0-97.12Zm0,82.13H320.05a33.57,33.57,0,0,1,0-67.13h86.27a33.57,33.57,0,0,1,0,67.13ZM318.2,204.61A11.84,11.84,0,1,0,330,216.45,11.84,11.84,0,0,0,318.2,204.61Zm87.35,0a11.84,11.84,0,1,0,11.84,11.84A11.85,11.85,0,0,0,405.55,204.61Z" />
+                </svg>
+            </div>
+        </div>
+
+        <div id="action_name"></div>
+        <br>
+    </main>
+
+</body>
+
+</html>

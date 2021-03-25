@@ -1,4 +1,8 @@
-const { BrowserWindow, app, ipcMain } = require("electron");
+const {
+    BrowserWindow,
+    app,
+    ipcMain
+} = require("electron");
 const path = require('path');
 
 const SerialPort = require("serialport");
@@ -15,25 +19,25 @@ function createWindow() {
         height: 540,
         frame: false,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'game2.js')
         }
     })
 
-    window.loadFile('index.html')
+    window.loadFile('game2.html')
 }
 
 app.whenReady().then(() => {
     createWindow()
 
     app.on("activate", () => {
-        if ( BrowserWindow.getAllWindows().length == 0 ) {
+        if (BrowserWindow.getAllWindows().length == 0) {
             createWindow()
         }
     })
 })
 
 app.on('window-all-closed', () => {
-    if ( process.platform !== 'darwin' ) {
+    if (process.platform !== 'darwin') {
         app.quit()
     }
 })
@@ -65,7 +69,7 @@ ipcMain.handle('app_close', (event, args) => {
 function scanMicrobit() {
     SerialPort.list().then((ports) => {
         ports.forEach(device => {
-            if ( ["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204" ) {
+            if (["0d28", "0D28"].includes(device.vendorId) && device.productId == "0204") {
                 // is a microbit
                 console.log("Microbit found!")
 
@@ -76,7 +80,7 @@ function scanMicrobit() {
 }
 
 function initMicrobit(device) {
-    if ( device != false ) {
+    if (device != false) {
         const microBit = new SerialPort(device.path, {
             baudRate: 115200,
             autoOpen: false
@@ -91,19 +95,31 @@ function initMicrobit(device) {
 
             window.webContents.send("device_connected", device)
 
-            if ( playerSocket ) {
+            if (playerSocket) {
                 console.log("Sending to server")
                 playerSocket.emit('microbit_connected', device)
             }
 
             parser.on('data', (data) => {
-                console.log(data)
 
                 ipcMain.emit("data", data)
 
                 window.webContents.send("data", data)
 
+                if (data.indexOf("seconds") > -1) {
+                    data = data.split(":")[1].trim()
+                    window.webContents.send("random_seconds", data)
+
+                } else if (data.indexOf("action") > -1) {
+                    data = data.split(":")[1].trim()
+                    window.webContents.send("random_action", data)
+
+                } else if (data.indexOf("points") > -1) {
+                    data = data.split(":")[1].trim()
+                    window.webContents.send("random_points", data)
+
+                }
             })
         })
     }
-} 
+}
